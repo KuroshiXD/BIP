@@ -1,0 +1,24 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+    networks:
+      - traefik-nginx
+
+  traefik:
+    image: "traefik:v3.2"
+    ports:
+      - 8080:80
+      - 8443:443
+    networks:
+      - traefik-nginx
+    depends_on:
+      - backend
+    volumes:
+      - ./traefik:/etc/traefik
+      - ./certs:/etc/certs
+
+networks:
+  traefik-nginx:
+    driver: bridge

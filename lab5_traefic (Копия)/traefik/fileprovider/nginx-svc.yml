@@ -1,0 +1,20 @@
+http:
+  routers:
+    backend-http-router:
+      rule: "PathPrefix(`/backend`)"
+      entryPoints:
+        - http
+      service: backend-service
+
+    backend-https-router:
+      rule: "PathPrefix(`/backend`)"
+      entryPoints:
+        - https
+      tls: {}
+      service: backend-service
+
+  services:
+    backend-service:
+      loadBalancer:
+        servers:
+          - url: "http://backend:8000/"
